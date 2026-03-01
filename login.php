@@ -7,7 +7,7 @@ if (isset($_SESSION["email"])) {
     exit;
 }
 
-
+// test
 $email = "";
 $error = "";
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
