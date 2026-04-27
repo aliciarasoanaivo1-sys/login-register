@@ -1,74 +1,64 @@
 <?php
 include "layout/header.php";
 
-// Check if the user is logger in, if yes then redirect him to the home page
+// Si déjà connecté, on va à l'accueil
 if (isset($_SESSION["email"])) {
     header("location: /index.php");
     exit;
 }
 
-// test
 $email = "";
 $error = "";
+
+// Traitement du formulaire quand on clique sur "Se connecter"
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
     if (empty($email) || empty($password)) {
-        $error = "Email and Password are required";
-    }
-    else {
+        $error = "L'email et le mot de passe sont requis.";
+    } else {
         include "tools/db.php";
         $dbConnection = getDatabaseConnection();
 
+        // On cherche l'email dans la table des administrateurs
         $statement = $dbConnection->prepare(
-            "SELECT id, first_name, last_name, phone, address, password, created_at FROM users WHERE email = ?"
+            "SELECT id, email, password FROM administrateurs WHERE email = ?"
         );
 
-        // Bind variables to the propared statemetent as parameters
         $statement->bind_param('s', $email);
-
-        // execute statement
         $statement->execute();
+        
+        // On récupère le résultat
+        $statement->bind_result($id, $db_email, $stored_password);
 
-        // bind result statement
-        $statement->bind_result($id, $first_name, $last_name, $phone, $address, $stored_password, $created_at);
-
-        // fetch values
         if ($statement->fetch()) {
+            // On vérifie le mot de passe
             if (password_verify($password, $stored_password)) {
-                // Password is correct
+                
+                // Connexion réussie ! On crée les sessions
+                $_SESSION["admin_id"] = $id;
+                $_SESSION["email"] = $db_email;
+                $_SESSION["role"] = "admin";
 
-                // Store data in session variables
-                $_SESSION["id"] = $id;
-                $_SESSION["first_name"] = $first_name;
-                $_SESSION["last_name"] = $last_name;
-                $_SESSION["email"] = $email;
-                $_SESSION["address"] = $address;
-                $_SESSION["phone"] = $phone;
-
-                $_SESSION["created_at"] = $created_at;
-
-                // Redirect user to the home page
+                // Redirection vers l'accueil (le portail)
                 header("location: /index.php");
                 exit;
+            } else {
+                $error = "Mot de passe incorrect.";
             }
+        } else {
+            $error = "Aucun compte administrateur trouvé avec cet email.";
         }
-
-
         $statement->close();
-
-        $error = "Email or Password invalid";
     }
 }
 ?>
 
-
 <div class="container py-5">
-    <div class="mx-auto border shadow p-4" style="width: 400px">
-        <h2 class="text-center mb-4">Login</h2>
+    <div class="mx-auto border shadow p-4" style="width: 400px; background-color: white; border-radius: 8px;">
+        <h2 class="text-center mb-4">Administration</h2>
         <hr />
-
 
         <?php if (!empty($error)) { ?>
             <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -77,31 +67,28 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             </div>
         <?php } ?>
         
-
         <form method="post">
             <div class="mb-3">
                 <label class="form-label">Email</label>
-                <input class="form-control" name="email" value="<?= $email?>" />
+                <input type="email" class="form-control" name="email" value="<?= htmlspecialchars($email) ?>" />
             </div>
 
             <div class="mb-3">
-                <label class="form-label">Password</label>
-                <input class="form-control" name="password" />
+                <label class="form-label">Mot de passe</label>
+                <input type="password" class="form-control" name="password" />
             </div>
-                <div class="row mb-3">
-                    <div class="col d-grid">
-                        <button type="submit" class="btn btn-primary">Log in</button>
-                    </div>
-                    <div class="col d-grid">
-                        <a href="/index.php" class="btn btn-outligne-primary">Cancel</a>
-                    </div>
+            
+            <div class="row mb-3 mt-4">
+                <div class="col d-grid">
+                    <button type="submit" class="btn btn-primary">Se connecter</button>
                 </div>
+                <div class="col d-grid">
+                    <a href="/index.php" class="btn btn-outline-primary">Annuler</a>
+                </div>
+            </div>
         </form>
     </div>
 </div>
-
-
-
 
 <?php
 include "layout/footer.php";
