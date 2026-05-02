@@ -2,8 +2,8 @@
 function getDatabaseConnection() {
     $servername = "localhost";
     $username = "root";
-    $password = "root";
-    $database = "beststoredb";
+    $password = "";
+    $database = "projet_parking";
 
     // Create connexion
     $connection = new mysqli($servername, $username, $password, $database);
