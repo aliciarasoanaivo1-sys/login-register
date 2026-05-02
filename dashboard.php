@@ -115,37 +115,42 @@ if ($presents < 0) $presents = 0;
                 <table id="tablePassages" class="table table-hover align-middle w-100">
                     <thead class="table-light">
                         <tr>
+                            <th>Date</th> <!-- NOUVELLE COLONNE ICI -->
                             <th>Heure</th>
                             <th>Mouvement</th>
-                            <th>Prénom & Nom</th>
+                             <th>Prénom & Nom</th>
                             <th>Classe</th>
                             <th>Code Badge</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
+                       <?php
                         $query = "SELECT p.date_heure, p.type_mouvement, u.first_name, u.last_name, u.classe, p.code_badge 
-                                  FROM passages p 
-                                  JOIN users u ON p.code_badge = u.code_badge 
-                                  ORDER BY p.date_heure DESC 
-                                  LIMIT 50";
-                        
+                                FROM passages p 
+                                JOIN users u ON p.code_badge = u.code_badge 
+                                ORDER BY p.date_heure DESC 
+                                LIMIT 50";
+
                         $result = $db->query($query);
 
                         while ($row = $result->fetch_assoc()) {
-                            $heure_formatee = date('H:i:s', strtotime($row['date_heure']));
-                            
-                            $badge_couleur = ($row['type_mouvement'] == 'entree') ? 'bg-primary' : 'bg-danger';
-                            $mouvement_texte = ($row['type_mouvement'] == 'entree') ? 'ENTRÉE' : 'SORTIE';
-                            
-                            echo "<tr>";
-                            echo "<td><strong>" . $heure_formatee . "</strong></td>";
-                            echo "<td><span class='badge " . $badge_couleur . " rounded-pill'>" . $mouvement_texte . "</span></td>";
-                            echo "<td>" . htmlspecialchars($row['first_name'] . " " . $row['last_name']) . "</td>";
-                            echo "<td>" . htmlspecialchars($row['classe']) . "</td>";
-                            echo "<td class='text-muted'>" . htmlspecialchars($row['code_badge']) . "</td>";
-                            echo "</tr>";
-                        }
+                    // Séparation de la date et de l'heure au format français
+                        $date_formatee = date('d/m/Y', strtotime($row['date_heure']));
+                        $heure_formatee = date('H:i:s', strtotime($row['date_heure']));
+    
+                        $badge_couleur = ($row['type_mouvement'] == 'entree') ? 'bg-primary' : 'bg-danger';
+                        $mouvement_texte = ($row['type_mouvement'] == 'entree') ? 'ENTRÉE' : 'SORTIE';
+    
+                         echo "<tr>";
+                     // On utilise data-sort pour que DataTables trie sur le timestamp exact et non sur le texte "d/m/Y"
+                         echo "<td data-sort='" . $row['date_heure'] . "'><strong>" . $date_formatee . "</strong></td>";
+                         echo "<td>" . $heure_formatee . "</td>";
+                         echo "<td><span class='badge " . $badge_couleur . " rounded-pill'>" . $mouvement_texte . "</span></td>";
+                         echo "<td>" . htmlspecialchars($row['first_name'] . " " . $row['last_name']) . "</td>";
+                         echo "<td>" . htmlspecialchars($row['classe']) . "</td>";
+                         echo "<td class='text-muted'>" . htmlspecialchars($row['code_badge']) . "</td>";
+                         echo "</tr>";
+            }
                         ?>
                     </tbody>
                 </table>
