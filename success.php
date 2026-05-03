@@ -21,7 +21,7 @@ include "layout/header.php";
         <div class="col-md-6 text-center">
             
             <div class="alert alert-success mb-4">
-                🎉 Félicitations <strong><?= htmlspecialchars($first_name) ?></strong> ! Ton inscription est réussie.
+                Félicitations <strong><?= htmlspecialchars($first_name) ?></strong> ! Ton inscription est réussie.
             </div>
 
             <div class="card shadow-lg border-primary mb-4">

@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         include "tools/db.php";
         $dbConnection = getDatabaseConnection();
 
-        // 🌟 GÉNÉRATION DU CODE BADGE UNIQUE
+        // GÉNÉRATION DU CODE BADGE UNIQUE
         // On prend l'année (ex: 2024) et un nombre au hasard entre 1000 et 9999
         $annee = date('Y');
         $random_num = rand(1000, 9999);
