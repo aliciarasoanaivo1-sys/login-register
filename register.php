@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                     <div class="col-sm-8">
 
-                        <input class="form-control" name="first_name" required value="<?= htmlspecialchars($firstName) ?>">
+                        <input class="form-control" name="first_name" required value="<?= htmlspecialchars($first_name) ?>">
 
                     </div>
 
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                     <div class="col-sm-8">
 
-                        <input class="form-control" name="last_name" required value="<?= htmlspecialchars($lastName) ?>">
+                        <input class="form-control" name="last_name" required value="<?= htmlspecialchars($last_name) ?>">
 
                     </div>
 
@@ -152,7 +152,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                     <div class="col-sm-8">
 
-                        <input class="form-control" name="classe" placeholder="ex: IGGLIA 1B" required value="<?= htmlspecialchars($studentClass) ?>">
+                        <input class="form-control" name="classe" placeholder="ex: IGGLIA 1B" required value="<?= htmlspecialchars($classe) ?>">
 
                     </div>
 
@@ -166,7 +166,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
                     <div class="col-sm-8">
 
-                        <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha (Optionnel)" value="<?= htmlspecialchars($vehicleBrand) ?>">
+                        <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha (Optionnel)" value="<?= htmlspecialchars($marque_vehicule) ?>">
 
                     </div>
 
