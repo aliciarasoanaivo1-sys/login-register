@@ -2,8 +2,8 @@
         <div class="container">
             <div class="row">
                 <div class="col text-center">
-                    <img class="mb-2" src="images/fed61408-756e-4d02-8830-0ce6147c8073.jpeg" alt="" width="24" height="24">
-                    <small class="d-block text-muted">&copy; 2017-<?= date("Y") ?></small>
+                    <img class="mb-2" src="images/logo_ispm.png" alt="" width="100" height="100">
+                    <small class="d-block text-muted">&copy; 2025-<?= date("Y") ?></small>
                 </div>
             </div>                 
         </div>            
