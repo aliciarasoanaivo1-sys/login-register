@@ -21,12 +21,12 @@ include "layout/header.php";
         <div class="col-md-6 text-center">
             
             <div class="alert alert-success mb-4">
-                🎉 Félicitations <strong><?= htmlspecialchars($first_name) ?></strong> ! Ton inscription est réussie.
+                Félicitations <strong><?= htmlspecialchars($first_name) ?></strong> ! Ton inscription est réussie.
             </div>
 
             <div class="card shadow-lg border-primary mb-4">
                 <div class="card-header bg-primary text-white">
-                    <h3 class="mb-0">🛡️ School Access - Laissez-passer</h3>
+                    <h3 class="mb-0">🛡️ School Access </h3>
                 </div>
                 <div class="card-body py-5">
                     <p class="text-muted">Voici ton numéro d'identification unique :</p>
@@ -36,6 +36,7 @@ include "layout/header.php";
                     <p class="mb-4">Conserve ce numéro précieusement. Tu devras le saisir au portail à chaque entrée et sortie.</p>
                     
                     <div class="text-muted" style="font-family: 'Courier New', monospace; font-size: 28px; letter-spacing: 2px;">
+
                     </div>
                 </div>
             </div>

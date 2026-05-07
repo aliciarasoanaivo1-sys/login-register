@@ -16,6 +16,7 @@ function getDatabaseConnection() {
     $database = getenv('DB_NAME') ?: "beststoredb";
 
     // 3. Connexion identique à ton code d'origine
+
     $connection = new mysqli($servername, $username, $password, $database);
 
     if($connection->connect_error) {
