@@ -9,13 +9,14 @@ function getDatabaseConnection() {
         }
     }
 
-    // 2. On récupère les variables d'environnement
-    $servername = getenv('DB_SERVER');
-    $username = getenv('DB_USER');
-    $password = getenv('DB_PASS');
-    $database = getenv('DB_NAME');
+    // 2. On récupère les valeurs en gardant TES noms de variables
+    $servername = getenv('DB_SERVER') ?: "localhost";
+    $username = getenv('DB_USER') ?: "root";
+    $password = getenv('DB_PASS') ?: "root";
+    $database = getenv('DB_NAME') ?: "beststoredb";
 
-    // 3. Connexion à la base de données
+    // 3. Connexion identique à ton code d'origine
+
     $connection = new mysqli($servername, $username, $password, $database);
 
     if($connection->connect_error) {
