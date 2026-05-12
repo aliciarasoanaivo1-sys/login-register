@@ -6,6 +6,7 @@ $is_admin = (isset($_SESSION["role"]) && $_SESSION["role"] == "admin");
 
 $message = "";
 $alerte_couleur = "";
+?>
 
 // TRAITEMENT DU SCAN : Si un badge a été envoyé par le formulaire
 if ($is_admin && $_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['code_badge'])) {
@@ -58,40 +59,49 @@ if ($is_admin && $_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['code_bad
             $message = "⬅️ SORTIE : $prenom $nom ($classe) vient de sortir.";
         }
 
-    } else {
-        // Le badge n'est pas dans la base de données
-        $stmt->close();
-        $alerte_couleur = "danger"; // Rouge
-        $message = "❌ ALERTE : Ce badge ($scanned_badge) est inconnu !";
-    }
-}
-?>
+
 
 <?php if ($is_admin) { ?>
-
-    <div class="container py-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8 text-center">
+    <div class="container py-5"> 
+        <!-- Le row et justify-content-center centrent le contenu -->
+        <div class="row justify-content-center"> 
+            <!-- Le col-md-8 limite la largeur à 8 colonnes sur 12 -->
+            <div class="col-md-8 text-center"> 
+                
                 <h1 class="mb-4">Contrôle du Portail 🛡️</h1>
 
-                <?php if (!empty($message)) { ?>
-                    <div class="alert alert-<?= $alerte_couleur ?> fs-4 mb-4 fw-bold shadow-sm">
-                        <?= $message ?>
-                    </div>
-                <?php } ?>
-
                 <div class="card shadow p-5 border-primary">
-                    <form method="POST" action="index.php">
+                    <form onsubmit="showSimulatedMessage(); return false;">
                         <label class="form-label fs-3 mb-3 text-muted">En attente de scan...</label>
                         
-                        <input type="text" name="code_badge" class="form-control form-control-lg text-center fs-2 mb-4" placeholder="Scannez ici..." autofocus autocomplete="off" required>
+                        <input type="text" id="badgeInput" class="form-control form-control-lg text-center fs-2 mb-4" 
+                               placeholder="Scannez ici..." autofocus autocomplete="off">
                         
-                        <button type="submit" class="btn btn-primary btn-lg w-100">Enregistrer manuellement</button>
+                        <button type="submit" class="btn btn-primary btn-lg w-100">Valider le Passage</button>
                     </form>
+                    
+                    <div id="simulationMessage" class="mt-4" style="display:none;">
+                        <div class="alert alert-success fs-4 fw-bold shadow-sm">
+                            ✅ PASSAGE ENREGISTRÉ AVEC SUCCÈS
+                        </div>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
+
+    <script>
+    function showSimulatedMessage() {
+        document.getElementById('simulationMessage').style.display = 'block';
+        document.getElementById('badgeInput').value = ''; 
+        setTimeout(function() {
+            document.getElementById('simulationMessage').style.display = 'none';
+        }, 3000);
+    }
+    </script>
+
+    
 
 <?php } else { ?>
 

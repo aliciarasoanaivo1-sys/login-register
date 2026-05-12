@@ -1,10 +1,16 @@
 <?php
+
 include "layout/header.php";
 
-// Variables pour stocker les saisies de l'utilisateur
+
+// 1. INITIALISATION DES VARIABLES
+
 $first_name = "";
+
 $last_name = "";
+
 $classe = "";
+
 $marque_vehicule = "";
 
 // Variables pour gérer les messages d'erreur
@@ -14,12 +20,20 @@ $classe_error = "";
 $marque_vehicule_error = "";
 $error = false;
 
-// 1. DÉTECTION DU CLIC : Est-ce que le formulaire a été envoyé ?
+
+
+// 2. DÉTECTION DU CLIC : Si le formulaire est envoyé
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
+
     
-    // On récupère ce que l'utilisateur a tapé
+
+    // Récupération des données du formulaire (camelCase pour le PHP)
+
     $first_name = $_POST['first_name'];
+
     $last_name = $_POST['last_name'];
+
     $classe = $_POST['classe'];
     $marque_vehicule = $_POST['marque_vehicule']; 
 
@@ -43,18 +57,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
     // 3. ENREGISTREMENT : 
     if (!$error) {
+
         
+
         // Connexion à la base de données
+
         include "tools/db.php";
+
         $dbConnection = getDatabaseConnection();
 
-        // GÉNÉRATION DU CODE BADGE UNIQUE
-        // On prend l'année (ex: 2024) et un nombre au hasard entre 1000 et 9999
+
+
+        // GÉNÉRATION DU CODE BADGE (Ex: SA-2026-4821)
+
         $annee = date('Y');
         $random_num = rand(1000, 9999);
         $badge_code = "SA-" . $annee . "-" . $random_num; // Résultat : SA-2024-4821
+        $created_at = date('Y-m-d H:i:s'); // Date et heure actuelles au format MySQL
 
-        $created_at = date('Y-m-d H:i:s'); // Date du jour
 
         // INSERTION DANS LA BASE DE DONNÉES
         // On prépare la requête avec nos nouvelles colonnes
@@ -63,7 +83,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             "VALUES (?, ?, ?, ?, ?, ?)"
         );
 
-        // On associe les 6 variables (6 "s" pour dire que ce sont 6 textes/strings)
+       // On associe les 6 variables (6 "s" pour dire que ce sont 6 textes/strings)
         $statement->bind_param('ssssss', $first_name, $last_name, $classe, $marque_vehicule, $badge_code, $created_at);
 
         // On exécute la requête
@@ -77,15 +97,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         // Redirection vers une nouvelle page qui affichera le badge généré
         header("location: /success.php");
         exit;
+
     }
+
 }
+
 ?>
 
+
+
 <div class="container py-5">
+
     <div class="row">
-        <div class="col-lg-6 mx-auto border shadow p-4">
+
+        <div class="col-lg-6 mx-auto border shadow p-4 bg-white" style="border-radius: 8px;">
+
             <h2 class="text-center mb-4">Inscription School Access</h2>
+
             <hr />
+
+
+
+            <?php if (!empty($messageError)): ?>
+
+                <div class="alert alert-danger"><?= $messageError ?></div>
+
+            <?php endif; ?>
+
+
 
             <form method="post"> 
                        
@@ -98,6 +137,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     </div>
                 </div> 
                 
+
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Prénom*</label>
                     <div class="col-sm-8">
@@ -106,13 +146,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                     </div>
                 </div>      
 
+
+
                 <div class="row mb-3">
+
                     <label class="col-sm-4 col-form-label">Classe*</label>
+
                     <div class="col-sm-8">
-                        <input class="form-control" name="classe" placeholder="ex: IGGLIA 1B" value="<?= htmlspecialchars($classe) ?>">
-                        <span class="text-danger"><?= $classe_error ?></span>
+
+                        <input class="form-control" name="classe" placeholder="ex: IGGLIA 1B" required value="<?= htmlspecialchars($classe) ?>">
+
                     </div>
+
                 </div>        
+
+
 
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Marque Véhicule*</label>
@@ -120,21 +168,39 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                         <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha " value="<?= htmlspecialchars($marque_vehicule) ?>">
                         <span class="text-danger"><?= $marque_vehicule_error ?></span>
                     </div>
+
                 </div>  
+
                 
-                <div class="row mb-3">
-                    <div class="offset-sm-4 col-sm-4 d-grid">
+
+                <div class="row mb-3 mt-4">
+
+                    <div class="col d-grid">
+
                         <button type="submit" class="btn btn-primary">Générer le Badge</button>
+
                     </div>
-                    <div class="col-sm-4 d-grid">
+
+                    <div class="col d-grid">
+
                         <a href="/index.php" class="btn btn-outline-primary">Annuler</a>
+
                     </div>
+
                 </div>
+
             </form>
+
         </div>
+
     </div>
+
 </div>
 
+
+
 <?php
+
 include "layout/footer.php";
+
 ?>
