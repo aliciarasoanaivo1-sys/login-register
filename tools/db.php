@@ -13,7 +13,7 @@ function getDatabaseConnection() {
     $servername = getenv('DB_SERVER') ?: "localhost";
     $username = getenv('DB_USER') ?: "root";
     $password = getenv('DB_PASS') ?: "root";
-    $database = getenv('DB_NAME') ?: "beststoredb";
+    $database = getenv('DB_NAME') ?: "school_access_db";
 
     // 3. Connexion identique à ton code d'origine
 
