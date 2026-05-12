@@ -11,6 +11,7 @@ $marque_vehicule = "";
 $first_name_error = "";
 $last_name_error = "";
 $classe_error = "";
+$marque_vehicule_error = "";
 $error = false;
 
 // 1. DÉTECTION DU CLIC : Est-ce que le formulaire a été envoyé ?
@@ -20,9 +21,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $first_name = $_POST['first_name'];
     $last_name = $_POST['last_name'];
     $classe = $_POST['classe'];
-    $marque_vehicule = $_POST['marque_vehicule']; // La marque est optionnelle
+    $marque_vehicule = $_POST['marque_vehicule']; 
 
-    // 2. VÉRIFICATION : Est-ce que les champs obligatoires sont remplis ?
+    // 2. VÉRIFICATION : des champs obligatoires 
     if (empty($first_name)){
         $first_name_error = "Le prénom est obligatoire.";
         $error = true;
@@ -35,8 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $classe_error = "La classe est obligatoire.";
         $error = true;
     }
+    if (empty($marque_vehicule)){
+        $marque_vehicule_error = "La marque du véhicule est obligatoire.";
+        $error = true;
+    }
 
-    // 3. ENREGISTREMENT : S'il n'y a aucune erreur, on enregistre !
+    // 3. ENREGISTREMENT : 
     if (!$error) {
         
         // Connexion à la base de données
@@ -51,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
         $created_at = date('Y-m-d H:i:s'); // Date du jour
 
-        // 📥 INSERTION DANS LA BASE DE DONNÉES
+        // INSERTION DANS LA BASE DE DONNÉES
         // On prépare la requête avec nos nouvelles colonnes
         $statement = $dbConnection->prepare(
             "INSERT INTO users (first_name, last_name, classe, marque_vehicule, code_badge, created_at) " .
@@ -65,11 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         $statement->execute();
         $statement->close();
 
-        // 🎉 SUCCÈS : On sauvegarde le badge dans la session pour l'afficher sur la page suivante
+        // SUCCÈS : On sauvegarde le badge dans la session pour l'afficher sur la page suivante
         $_SESSION["badge_code"] = $badge_code;
         $_SESSION["first_name"] = $first_name;
 
-        // Redirection vers une nouvelle page (que l'on va créer ensuite) pour montrer le badge
+        // Redirection vers une nouvelle page qui affichera le badge généré
         header("location: /success.php");
         exit;
     }
@@ -83,14 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             <hr />
 
             <form method="post"> 
-                
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Prénom*</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
-                        <span class="text-danger"><?= $first_name_error ?></span>
-                    </div>
-                </div>           
+                       
                 
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Nom*</label>
@@ -98,7 +96,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                         <input class="form-control" name="last_name" value="<?= htmlspecialchars($last_name) ?>">
                         <span class="text-danger"><?= $last_name_error ?></span>
                     </div>
-                </div>        
+                </div> 
+                
+                <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Prénom*</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" name="first_name" value="<?= htmlspecialchars($first_name) ?>">
+                        <span class="text-danger"><?= $first_name_error ?></span>
+                    </div>
+                </div>      
 
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Classe*</label>
@@ -109,9 +115,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 </div>        
 
                 <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Marque Véhicule</label>
+                    <label class="col-sm-4 col-form-label">Marque Véhicule*</label>
                     <div class="col-sm-8">
-                        <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha (Optionnel)" value="<?= htmlspecialchars($marque_vehicule) ?>">
+                        <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha " value="<?= htmlspecialchars($marque_vehicule) ?>">
+                        <span class="text-danger"><?= $marque_vehicule_error ?></span>
                     </div>
                 </div>  
                 

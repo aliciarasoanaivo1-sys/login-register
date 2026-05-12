@@ -18,7 +18,6 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] == "admin") {
     <link rel="icon" href="images/fed61408-756e-4d02-8830-0ce6147c8073.jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
-
   </head>
   <body>
 

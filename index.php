@@ -7,11 +7,12 @@ $is_admin = (isset($_SESSION["role"]) && $_SESSION["role"] == "admin");
 $message = "";
 $alerte_couleur = "";
 
-// ⚙️ TRAITEMENT DU SCAN : Si un badge a été envoyé par le formulaire
+// TRAITEMENT DU SCAN : Si un badge a été envoyé par le formulaire
 if ($is_admin && $_SERVER['REQUEST_METHOD'] == 'POST' && !empty($_POST['code_badge'])) {
     
     include "tools/db.php";
     $db = getDatabaseConnection();
+    
     // On nettoie les espaces en trop que la douchette pourrait envoyer
     $scanned_badge = trim($_POST['code_badge']); 
 
