@@ -36,7 +36,7 @@ include "layout/header.php";
                     <p class="mb-4">Conserve ce numéro précieusement. Tu devras le saisir au portail à chaque entrée et sortie.</p>
                     
                     <div class="text-muted" style="font-family: 'Courier New', monospace; font-size: 28px; letter-spacing: 2px;">
-                      
+
                     </div>
                 </div>
             </div>
