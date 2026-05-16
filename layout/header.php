@@ -19,7 +19,7 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] == "admin") {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100" style="overflow-x: hidden;">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm">
          <div class="container">

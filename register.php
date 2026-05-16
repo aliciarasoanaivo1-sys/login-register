@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
     $marque_vehicule = $_POST['marque_vehicule'];
 
     // Vérification : les champs obligatoires sont-ils remplis ?
-    if (empty($first_name) || empty($last_name) || empty($classe)) {
+    if (empty($first_name) || empty($last_name) || empty($classe)|| empty($marque_vehicule)) {
         $messageError = "Veuillez remplir tous les champs obligatoires (*)";
     } else {
 
@@ -26,31 +26,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
         include "tools/db.php";
         $dbConnection = getDatabaseConnection();
 
-        // GÉNÉRATION DU CODE BADGE (Ex: SA-2026-4821)
+        // GÉNÉRATION DU CODE BADGE 
         $annee = date('Y');
         $random_num = rand(1000, 9999);
         $badge_code = "SA-" . $annee . "-" . $random_num; // Résultat : SA-2024-4821
-        $created_at = date('Y-m-d H:i:s'); // Date et heure actuelles au format MySQL
+        $created_at = date('Y-m-d H:i:s'); 
 
         // INSERTION DANS LA BASE DE DONNÉES
-        // On prépare la requête avec nos nouvelles colonnes (prepared statements pour la sécurité)
         $statement = $dbConnection->prepare(
             "INSERT INTO users (first_name, last_name, classe, marque_vehicule, code_badge, created_at) " .
             "VALUES (?, ?, ?, ?, ?, ?)"
         );
 
-        // On associe les 6 variables (6 "s" pour dire que ce sont 6 textes/strings)
         $statement->bind_param('ssssss', $first_name, $last_name, $classe, $marque_vehicule, $badge_code, $created_at);
 
         // On exécute la requête
         if ($statement->execute()) {
             $statement->close();
 
-            // SUCCÈS : On sauvegarde le badge dans la session pour l'afficher sur la page suivante
+            // SUCCÈS 
             $_SESSION["badge_code"] = $badge_code;
             $_SESSION["first_name"] = $first_name;
 
-            // Redirection vers une nouvelle page qui affichera le badge généré
+            // Redirection vers la page de succès
             header("location: /success.php");
             exit;
         } else {
@@ -72,19 +70,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
             <?php endif; ?>
 
             <form method="post"> 
+                 <div class="row mb-3">
+                    <label class="col-sm-4 col-form-label">Nom*</label>
+                    <div class="col-sm-8">
+                        <input class="form-control" name="last_name" required value="<?= htmlspecialchars($last_name) ?>">
+                    </div>
+                </div> 
+                    
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Prénom*</label>
                     <div class="col-sm-8">
                         <input class="form-control" name="first_name" required value="<?= htmlspecialchars($first_name) ?>">
                     </div>
                 </div>           
-                
-                <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Nom*</label>
-                    <div class="col-sm-8">
-                        <input class="form-control" name="last_name" required value="<?= htmlspecialchars($last_name) ?>">
-                    </div>
-                </div>        
 
                 <div class="row mb-3">
                     <label class="col-sm-4 col-form-label">Classe*</label>
@@ -94,7 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
                 </div>        
 
                 <div class="row mb-3">
-                    <label class="col-sm-4 col-form-label">Marque Véhicule</label>
+                    <label class="col-sm-4 col-form-label">Marque Véhicule*</label>
                     <div class="col-sm-8">
                         <input class="form-control" name="marque_vehicule" placeholder="ex: Yamaha (Optionnel)" value="<?= htmlspecialchars($marque_vehicule) ?>">
                     </div>
