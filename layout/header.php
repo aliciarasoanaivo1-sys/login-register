@@ -13,13 +13,13 @@ if (isset($_SESSION["role"]) && $_SESSION["role"] == "admin") {
 <html lang="fr">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School Access</title>
     <link rel="icon" href="images/fed61408-756e-4d02-8830-0ce6147c8073.jpeg">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="dashboard.css">
   </head>
-  <body>
+  <body class="d-flex flex-column min-vh-100" style="overflow-x: hidden;">
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary border-bottom shadow-sm">
          <div class="container">

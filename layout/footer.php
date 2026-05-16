@@ -2,7 +2,7 @@
         <div class="container">
             <div class="row">
                 <div class="col text-center">
-                    <img class="mb-2" src="images/logo_ispm.png" alt="" width="100" height="100">
+                    <img class="mb-2" src="images/logo_ispm-removebg-preview.png" alt="" width="100" height="100">
                     <small class="d-block text-muted">&copy; 2025-<?= date("Y") ?></small>
                 </div>
             </div>                 
