@@ -1,6 +1,8 @@
 <?php
-// On initialise la session
-session_start();
+// On initialise la session si elle n'est pas déjà active
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // On vérifie si l'utilisateur connecté est un administrateur
 $is_admin = false;
